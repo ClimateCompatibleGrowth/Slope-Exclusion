@@ -1,1 +1,6 @@
-/data
+# Ignore the specific file "dem.tif" in the \data folder
+/data/dem.tif
+
+# Ignore all files in the \output folder but not the folder itself
+/output/*
+!/output/.gitkeep

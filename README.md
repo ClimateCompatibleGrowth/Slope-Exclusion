@@ -15,6 +15,6 @@ This repository requires the digital elevation model in resolution 3s from Hydro
 ## Repository structure
 
 * `scripts`: contains the Python source code
-* `notebooks`: contains the Python code as jupyter-notebooks
+* `notebooks`: contains the Python code as jupyter-notebook
 * `data`: place for raw data
 * `output`: will contain created .tif-files

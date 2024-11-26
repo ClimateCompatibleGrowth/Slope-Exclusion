@@ -1,20 +1,59 @@
-# SlopeEXCL - Slope-based Exclusion
 
-Creating a .tif-file excluding areas above a defined threshold. 
+# **SlopeEXCL - Slope-based Exclusion**
 
-This code excludes zones, which are unsuitable for wind and solar energy placements. 
-For wind turbines, a uniform threshold for all aspects is considered. 
-For solar panels, a distinct threshold can be applied for south, and the north-east-west aspect. 
+SlopeEXCL generates `.tif` files to exclude areas unsuitable for wind and solar energy placements based on slope thresholds.
 
-## Getting ready
-This repository requires the digital elevation model in resolution 3s from Hydrosheds, available here: https://www.hydrosheds.org/hydrosheds-core-downloads
+- **Wind Turbines**: Applies a uniform slope threshold across all aspects.
+- **Solar Panels**: Allows distinct thresholds for south-facing and north-east-west-facing slopes.
 
-## Run it
+---
 
+## **About SlopeEXCL**
 
-## Repository structure
+SlopeEXCL uses slope-based exclusions to identify suitable areas for wind turbines and PV panels. This methodology integrates slope gradients and aspect orientation to enhance spatial assessments for renewable energy planning, which is crucial in mountainous regions. It can be added as an additional exclusion in tools like [GLAES](https://github.com/FZJ-IEK3-VSA/glaes). For example:
 
-* `scripts`: contains the Python source code
-* `notebooks`: contains the Python code as jupyter-notebook
-* `data`: place for raw data
-* `output`: will contain created .tif-files
+```python
+ec.excludeRasterType(os.path.join(data_path, 'Laos_slope_excluded_pv.tif'), value=1, prewarp=True)
+current_time = time.time() - start_time
+```
+
+---
+
+## **Getting Started**
+
+This repository requires a 3-arc-second resolution Digital Elevation Model (DEM) from [HydroSHEDS](https://www.hydrosheds.org/hydrosheds-core-downloads). Place the downloaded DEM in the `data` folder.
+
+---
+
+## **How to Run**
+
+1. Set up Python and install the required dependencies (e.g., `rasterio`, `numpy`, `scipy`).
+2. Execute the script from the terminal:
+   ```bash
+   python scripts/main.py --type [solar|wind|both] --solar-nea [value] --solar-s [value] --wind-thresh [value] --output [filename]
+   ```
+   Example with custom values:
+   ```bash
+   python scripts/main.py --type both --solar-nea 6.28 --solar-s 33 --wind-thresh 8.53 --output exclusion.tif
+   ```
+
+   To use the **default values**, omit the optional arguments::
+   ```bash
+   python scripts/main.py --type both
+   ```
+
+   The script will then use:
+   - `--solar-nea`: `6.28` (degrees)
+   - `--solar-s`: `33` (degrees)
+   - `--wind-thresh`: `8.53` (degrees)
+   - `--sigma`: `1`
+   - `--output`: `exclusion.tif`
+
+---
+
+## **Repository Structure**
+
+- **`scripts`**: Python source code for generating exclusion files.
+- **`notebooks`**: Jupyter notebooks with code.
+- **`data`**: Directory for raw input files (`dem.tif`).
+- **`output`**: Directory where generated `.tif` files will be saved.

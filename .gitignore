@@ -1,3 +1,4 @@
+
 # Ignore the specific file "dem.tif" in the \data folder
 /data/dem.tif
 

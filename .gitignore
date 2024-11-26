@@ -3,4 +3,3 @@ data/dem.tif
 
 # Ignore all files in the output folder but keep the folder itself
 output/*
-!output/.gitkeep

@@ -7,7 +7,22 @@ from scipy.ndimage import sobel, gaussian_filter
 
 def process_dem(dem_path, sigma=1):
     """
-    Process the DEM to calculate slope and aspect.
+    Process a DEM to calculate slope and aspect.
+
+    This function reads a Digital Elevation Model (DEM) from a file, applies a Gaussian filter for smoothing, 
+    and calculates the slope and aspect of the terrain. The slope is returned in degrees, and the aspect is 
+    returned as compass directions in degrees.
+
+    Args:
+        dem_path (str): Path to the input DEM file (e.g., a GeoTIFF).
+        sigma (float): Standard deviation for the Gaussian filter applied to smooth the DEM.
+
+    Returns:
+        tuple: A tuple containing:
+            - numpy.ndarray: The slope array in degrees.
+            - numpy.ndarray: The aspect array in degrees (0-360, with 0 = north).
+            - dict: The raster profile (metadata) of the input DEM.
+            - int or float or None: The NoData value of the DEM, if defined.
     """
     with rasterio.open(dem_path) as src:
         dem = src.read(1)
@@ -31,9 +46,18 @@ def process_dem(dem_path, sigma=1):
 
     return slope, aspect, profile, nodata
 
+
 def calculate_percentage_excluded(mask):
     """
-    Calculate the percentage of excluded points in a given mask.
+    Calculate the percentage of excluded points.
+
+    This function computes the percentage of points in a given mask that are marked as excluded (True).
+
+    Args:
+        mask (numpy.ndarray): A boolean array where True indicates excluded points.
+
+    Returns:
+        float: The percentage of excluded points relative to the total number of points.
     """
     total_points = np.prod(mask.shape)  # Total number of points
     excluded_points = np.sum(mask)     # Points where exclusion is True
@@ -41,11 +65,23 @@ def calculate_percentage_excluded(mask):
     return percentage_excluded
 
 
-def create_combined_exclusion(
-    dem_path, output_name, solar_nea, solar_s, wind_thresh, sigma=1
-):
+def create_combined_exclusion(dem_path, output_name, solar_nea, solar_s, wind_thresh, sigma=1):
     """
-    Create a combined exclusion mask for solar and wind and save as a raster.
+    Create and save a combined exclusion mask for solar and wind.
+
+    This function generates exclusion masks for solar and wind based on terrain slope and aspect, 
+    combines the masks, and saves the result to a raster file.
+
+    Args:
+        dem_path (str): Path to the input DEM file (e.g., a GeoTIFF).
+        output_name (str): Name of the output raster file.
+        solar_nea (float): Slope threshold for north, east, and west-facing slopes for solar PV.
+        solar_s (float): Slope threshold for south-facing slopes for solar PV.
+        wind_thresh (float): Slope threshold for wind exclusion.
+        sigma (float): Standard deviation for the Gaussian filter applied to smooth the DEM.
+
+    Returns:
+        None
     """
     slope, aspect, profile, nodata = process_dem(dem_path, sigma)
 
@@ -71,7 +107,20 @@ def create_combined_exclusion(
 
 def create_solar_exclusion(dem_path, output_name, solar_nea, solar_s, sigma=1):
     """
-    Create a solar exclusion mask and save as a raster.
+    Create and save a solar exclusion mask.
+
+    This function generates an exclusion mask for solar PV development based on terrain slope and aspect 
+    and saves the result to a raster file.
+
+    Args:
+        dem_path (str): Path to the input DEM file (e.g., a GeoTIFF).
+        output_name (str): Name of the output raster file.
+        solar_nea (float): Slope threshold for north, east, and west-facing slopes for solar PV.
+        solar_s (float): Slope threshold for south-facing slopes for solar PV.
+        sigma (float): Standard deviation for the Gaussian filter applied to smooth the DEM.
+
+    Returns:
+        None
     """
     slope, aspect, profile, nodata = process_dem(dem_path, sigma)
 
@@ -90,7 +139,19 @@ def create_solar_exclusion(dem_path, output_name, solar_nea, solar_s, sigma=1):
 
 def create_wind_exclusion(dem_path, output_name, wind_thresh, sigma=1):
     """
-    Create a wind exclusion mask and save as a raster.
+    Create and save a wind exclusion mask.
+
+    This function generates an exclusion mask for wind development based on terrain slope 
+    and saves the result to a raster file.
+
+    Args:
+        dem_path (str): Path to the input DEM file (e.g., a GeoTIFF).
+        output_name (str): Name of the output raster file.
+        wind_thresh (float): Slope threshold for wind exclusion.
+        sigma (float): Standard deviation for the Gaussian filter applied to smooth the DEM.
+
+    Returns:
+        None
     """
     slope, _, profile, nodata = process_dem(dem_path, sigma)
 
@@ -104,7 +165,18 @@ def create_wind_exclusion(dem_path, output_name, wind_thresh, sigma=1):
 
 def save_exclusion_raster(mask, profile, output_name):
     """
-    Save the exclusion mask to a raster file in the output directory.
+    Save an exclusion mask to a raster file.
+
+    This function writes a boolean mask to a GeoTIFF file, ensuring the mask is saved 
+    as a single-layer raster with the appropriate metadata.
+
+    Args:
+        mask (numpy.ndarray): Boolean array representing the exclusion mask.
+        profile (dict): Raster profile for the output file (e.g., spatial resolution, projection).
+        output_name (str): Name of the output raster file.
+
+    Returns:
+        None
     """
     output_folder = "output"
     os.makedirs(output_folder, exist_ok=True)
@@ -135,19 +207,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--solar-nea",
         type=float,
-        default=10,
+        default=6.28,  # Default value in degrees for north-east-west slopes
         help="Slope threshold for north, east, and west-facing slopes for solar PV (degrees)."
     )
     parser.add_argument(
         "--solar-s",
         type=float,
-        default=20,
+        default=33,  # Default value in degrees for south slopes
         help="Slope threshold for south-facing slopes for solar PV (degrees)."
     )
     parser.add_argument(
         "--wind-thresh",
         type=float,
-        default=15,
+        default=8.53,  # Default value in degrees for wind exclusion
         help="Slope threshold for wind exclusion (degrees)."
     )
     parser.add_argument(
@@ -185,9 +257,4 @@ if __name__ == "__main__":
             sigma=args.sigma
         )
     elif args.type == "wind":
-        create_wind_exclusion(
-            dem_path=dem_path,
-            output_name=args.output,
-            wind_thresh=args.wind_thresh,
-            sigma=args.sigma
-        )
+        create_wind

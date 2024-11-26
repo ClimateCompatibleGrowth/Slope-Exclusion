@@ -30,16 +30,16 @@ This repository requires a 3-arc-second resolution Digital Elevation Model (DEM)
 1. Set up Python and install the required dependencies (e.g., `rasterio`, `numpy`, `scipy`).
 2. Execute the script from the terminal:
    ```bash
-   python scripts/main.py --type [solar|wind|both] --solar-nea [value] --solar-s [value] --wind-thresh [value] --output [filename]
+   python exclude_slope.py --type [solar|wind|both] --solar-nea [value] --solar-s [value] --wind-thresh [value] --output [filename]
    ```
    Example with custom values:
    ```bash
-   python scripts/main.py --type both --solar-nea 6.28 --solar-s 33 --wind-thresh 8.53 --output exclusion.tif
+   python exclude_slope.py --type both --solar-nea 6.28 --solar-s 33 --wind-thresh 8.53 --output exclusion.tif
    ```
 
    To use the **default values**, omit the optional arguments::
    ```bash
-   python scripts/main.py --type both
+   python exclude_slope.py --type both
    ```
 
    The script will then use:
@@ -53,7 +53,7 @@ This repository requires a 3-arc-second resolution Digital Elevation Model (DEM)
 
 ## **Repository Structure**
 
-- **`scripts`**: Python source code for generating exclusion files.
-- **`notebooks`**: Jupyter notebooks with code.
-- **`data`**: Directory for raw input files (`dem.tif`).
+- **`exclude_slope.py`**: Python script for generating exclusion files.
+- **`exclude_slope.ipynb`**: Jupyter notebook for running the same code interactively.
+- **`data`**: Directory for raw input file `dem.tif`.
 - **`output`**: Directory where generated `.tif` files will be saved.

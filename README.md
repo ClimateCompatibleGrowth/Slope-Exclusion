@@ -9,8 +9,7 @@ SlopeEXCL generates `.tif` files to exclude areas unsuitable for wind and solar 
 The generated .tif files can be integrated as exclusion layers in renewable energy planning tools like [GLAES](https://github.com/FZJ-IEK3-VSA/glaes). For example, in Glaes:
 
 ```python
-ec.excludeRasterType(os.path.join(data_path, 'Laos_slope_excluded_pv.tif'), value=1, prewarp=True)
-current_time = time.time() - start_time
+ec.excludeRasterType(os.path.join(data_path, 'exclude_slope_pv.tif'), value=1, prewarp=True)
 ```
 
 ---

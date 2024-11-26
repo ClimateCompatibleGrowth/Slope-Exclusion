@@ -6,11 +6,7 @@ SlopeEXCL generates `.tif` files to exclude areas unsuitable for wind and solar 
 - **Wind Turbines**: Applies a uniform slope threshold across all aspects.
 - **Solar Panels**: Allows distinct thresholds for south-facing and north-east-west-facing slopes.
 
----
-
-## **About SlopeEXCL**
-
-SlopeEXCL uses slope-based exclusions to identify suitable areas for wind turbines and PV panels. This methodology integrates slope gradients and aspect orientation to enhance spatial assessments for renewable energy planning, which is crucial in mountainous regions. It can be added as an additional exclusion in tools like [GLAES](https://github.com/FZJ-IEK3-VSA/glaes). For example:
+The generated .tif files can be integrated as exclusion layers in renewable energy planning tools like [GLAES](https://github.com/FZJ-IEK3-VSA/glaes). For example, in Glaes:
 
 ```python
 ec.excludeRasterType(os.path.join(data_path, 'Laos_slope_excluded_pv.tif'), value=1, prewarp=True)

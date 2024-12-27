@@ -32,7 +32,7 @@ This repository requires a 3-arc-second resolution Digital Elevation Model (DEM)
    python exclude_slope.py --type both --solar-nea 6.28 --solar-s 33 --wind-thresh 8.53 --output exclusion.tif
    ```
 
-   To use the **default values**, omit the optional arguments::
+   To use the **default values**, omit the optional arguments:
    ```bash
    python exclude_slope.py --type both
    ```

@@ -18,6 +18,19 @@ ec.excludeRasterType(os.path.join(data_path, 'exclude_slope_pv.tif'), value=1, p
 
 This repository requires a 3-arc-second resolution Digital Elevation Model (DEM) from [HydroSHEDS](https://www.hydrosheds.org/hydrosheds-core-downloads). Place the downloaded DEM in the `data` folder.
 
+> **Note:** DEMs for entire continents are often too large to process efficiently.  
+> To avoid excessive file sizes, clip the DEM to your area of interest (e.g., a country).  
+> You can download country boundary shapefiles from [Natural Earth](https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/).  
+
+### **How to Clip the DEM**
+
+Before running the main exclusion script, clip the DEM to your country using the provided script: 
+
+```bash
+python clip_raster_to_boundary.py --raster data/dem.tif --boundary data/country_boundary.gpkg --output data/clipped_dem.tif
+```
+
+
 ---
 
 ## **How to Run**

@@ -20,7 +20,7 @@ This repository requires a 3-arc-second resolution Digital Elevation Model (DEM)
 
 > **Note:** DEMs for entire continents are often too large to process efficiently.  
 > To avoid excessive file sizes, clip the DEM to your area of interest (e.g., a country).  
-> You can download country boundary shapefiles from [Natural Earth](https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/).  
+> You can download country boundary shapefiles from [Geofabrik](https://download.geofabrik.de/).  
 
 ### **How to Clip the DEM**
 

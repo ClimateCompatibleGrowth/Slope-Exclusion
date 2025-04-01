@@ -15,28 +15,30 @@ ec.excludeRasterType(os.path.join(data_path, 'exclude_slope_pv.tif'), value=1, p
 ---
 
 ## **Getting Started**
+Download of files is indicated by 📋.
 
-This repository requires a 3-arc-second resolution Digital Elevation Model (DEM) from [HydroSHEDS](https://www.hydrosheds.org/hydrosheds-core-downloads). Place the downloaded DEM in the `data` folder.
+Code execution is indicated by 👉.
 
-> **Note:** DEMs for entire continents are often too large to process efficiently.  
-> To avoid excessive file sizes, clip the DEM to your area of interest (e.g., a country).  
-> You can download country boundary shapefiles from [Geofabrik](https://download.geofabrik.de/).  
+Set up Python and install the required dependencies (`rasterio`, `numpy`, `scipy`, `os`, `argparse`).
+
+📋 This repository requires a 3-arc-second resolution Digital Elevation Model (DEM) from [HydroSHEDS](https://www.hydrosheds.org/hydrosheds-core-downloads). Place the downloaded DEM in the `data` folder and rename to "_fulL_dem_".
+
+> **Note:** DEMs for entire continents are often too large to process efficiently. Clip them to your area of interest (see next step).
 
 ### **How to Clip the DEM**
+📋 To avoid excessive file sizes, clip the DEM to your area of interest (e.g., a country). You can download country boundary GeoJson files from [opendatasoft](https://public.opendatasoft.com/explore/dataset/world-administrative-boundaries/export/) based on their ISO3 code. Place the .geojson file in the `data` folder and rename to "_country_boundary_".
 
-Before running the main exclusion script, clip the DEM to your country using the provided script: 
+👉 Clip the DEM to your country using the provided script: 
 
 ```bash
-python clip_raster_to_boundary.py --raster data/dem.tif --boundary data/country_boundary.gpkg --output data/clipped_dem.tif
+python clip_raster_to_boundary.py --raster data/full_dem.tif --boundary data/country_boundary.geojson --output data/dem.tif
 ```
 
 
 ---
 
 ## **How to Run**
-
-1. Set up Python and install the required dependencies (e.g., `rasterio`, `numpy`, `scipy`).
-2. Execute the script from the terminal:
+👉 Execute the script from the terminal:
    ```bash
    python exclude_slope.py --type [solar|wind|both] --solar-nea [value] --solar-s [value] --wind-thresh [value] --output [filename]
    ```

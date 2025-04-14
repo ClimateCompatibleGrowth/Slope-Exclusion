@@ -3,3 +3,9 @@ data/dem.tif
 
 # Ignore all files in the output folder but keep the folder itself
 output/*
+data/country_boundary.geojson
+data/country_boundary.shp
+data/country_boundary.shx
+data/dem.tif.aux.xml
+data/hyd_as_dem_30s.tif
+data/test_dem.tif

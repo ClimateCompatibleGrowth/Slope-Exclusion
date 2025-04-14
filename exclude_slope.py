@@ -257,4 +257,9 @@ if __name__ == "__main__":
             sigma=args.sigma
         )
     elif args.type == "wind":
-        create_wind
+        create_wind_exclusion(
+            dem_path=dem_path,
+            output_name=args.output,
+            wind_thresh=args.wind_thresh,
+            sigma=args.sigma
+        )

@@ -22,7 +22,14 @@ def clip_raster_to_boundary(raster_path, boundary_path, output_path):
         boundary = boundary.to_crs(raster_crs)
 
         # Get the geometry as a GeoJSON-like dict
-        geometry = [mapping(boundary.geometry.union_all())]
+        try:
+            # Try for newer GeoPandas versions
+            unified_geometry = boundary.geometry.unary_union
+        except AttributeError:
+            # Try older versions
+            unified_geometry = boundary.geometry.union_all()
+
+        geometry = [mapping(unified_geometry)]
 
         # Mask the raster with the boundary
         out_image, out_transform = mask(src, geometry, crop=True)
